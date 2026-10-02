@@ -1,0 +1,9 @@
+# The test fixtures are shell scripts: a CRLF line ending breaks their shebang.
+* text=auto eol=lf
+
+/.github export-ignore
+/tests export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/phpstan.neon export-ignore
+/phpunit.xml.dist export-ignore
