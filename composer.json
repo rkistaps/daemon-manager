@@ -1,0 +1,41 @@
+{
+    "name": "rkistaps/daemon-manager",
+    "description": "Supervise long-running PHP CLI daemons in GNU screen sessions, with restart policies and a crash monitor",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["daemon", "screen", "supervisor", "process", "cli"],
+    "require": {
+        "php": "^8.3",
+        "psr/log": "^3.0",
+        "league/flysystem": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "phpstan/phpstan": "^2.0",
+        "rkistaps/the-app": "^1.0",
+        "php-di/php-di": "^7.0",
+        "league/climate": "^3.10"
+    },
+    "suggest": {
+        "rkistaps/the-app": "Required for the command-line integration (Integrations\\TheApp\\DaemonCommandConfigurator)",
+        "league/climate": "Required for the command-line integration (Integrations\\TheApp\\DaemonCommandConfigurator)"
+    },
+    "autoload": {
+        "psr-4": {
+            "rkistaps\\DaemonManager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "rkistaps\\DaemonManager\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}

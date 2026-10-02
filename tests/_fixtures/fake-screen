@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Stands in for GNU screen in tests, configured through environment variables:
+#   FAKE_SCREEN_DIR        required. Each call is appended to calls, one argument per line, after a "--- call" line.
+#                          Sessions started with -dmS are appended to sessions.
+#   FAKE_SCREEN_PID        the pid -list reports for every session. Without it, -list reports no sessions.
+#   FAKE_SCREEN_EXIT_CODE  when non-zero, -dmS prints an error and exits with it instead of starting the session.
+# -dmS runs the session's command in the foreground, so a test can check its effects as soon as the call returns.
+
+{ echo '--- call'; printf '%s\n' "$@"; } >> "$FAKE_SCREEN_DIR/calls"
+
+case "$1" in
+    -dmS)
+        if [ "${FAKE_SCREEN_EXIT_CODE:-0}" != 0 ]; then
+            echo 'fake screen: cannot start session'
+            exit "$FAKE_SCREEN_EXIT_CODE"
+        fi
+        echo "$2" >> "$FAKE_SCREEN_DIR/sessions"
+        shift 2
+        "$@"
+        exit 0
+        ;;
+    -list)
+        if [ -n "$FAKE_SCREEN_PID" ] && [ -f "$FAKE_SCREEN_DIR/sessions" ]; then
+            echo 'There are screens on:'
+            while read -r session; do
+                printf '\t%s.%s\t(Detached)\n' "$FAKE_SCREEN_PID" "$session"
+            done < "$FAKE_SCREEN_DIR/sessions"
+        fi
+        # Like the real screen, -list exits non-zero
+        exit 1
+        ;;
+    *)
+        exit 0
+        ;;
+esac

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Stands in for an app's runner script in tests. Writes each argument it receives on its own line to $FAKE_RUN_ARGS,
+# and its working directory to $FAKE_RUN_ARGS.cwd, then prints a line to standard output.
+
+printf '%s\n' "$@" > "$FAKE_RUN_ARGS"
+pwd > "$FAKE_RUN_ARGS.cwd"
+echo 'fake run: started'
